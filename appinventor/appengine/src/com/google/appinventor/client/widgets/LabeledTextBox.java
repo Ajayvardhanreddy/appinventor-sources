@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * A TextBox with a leading label.
@@ -19,6 +20,13 @@ public class LabeledTextBox extends Composite {
 
   // Backing TextBox
   private final TextBox textbox;
+  
+  private String defaultTextBoxColor;
+  private String errorMessage = "";
+  private Label errorLabel;
+  private Validator validator;
+  
+  private Label label;
 
   /**
    * Creates a new TextBox with the given leading caption.
@@ -27,7 +35,7 @@ public class LabeledTextBox extends Composite {
    */
   public LabeledTextBox(String caption) {
     HorizontalPanel panel = new HorizontalPanel();
-    Label label = new Label(caption);
+    label = new Label(caption);
     panel.add(label);
     textbox = new TextBox();
     textbox.setWidth("100%");
@@ -37,6 +45,41 @@ public class LabeledTextBox extends Composite {
     initWidget(panel);
 
     setWidth("100%");
+  }
+  
+  
+  /**
+   * Use this TextBox if you want to have text validation while a user is typing
+   * 
+   * @param caption     
+   * @param validator
+   */
+  public LabeledTextBox(String caption, Validator validator) {
+	  this.validator = validator;
+	  
+	  HorizontalPanel panel = new HorizontalPanel();
+	  label = new Label(caption);
+	  panel.add(label);
+	  textbox = new TextBox();
+	  defaultTextBoxColor = textbox.getElement().getStyle().getBorderColor();
+	  textbox.setWidth("100%");
+	  panel.add(textbox);
+	  panel.setCellWidth(label, "40%");
+	  
+	  HorizontalPanel errorPanel = new HorizontalPanel();
+	  errorLabel = new Label("");
+	  errorPanel.add(errorLabel);
+	  
+	  VerticalPanel vp = new VerticalPanel();
+	  vp.add(panel);
+	  vp.add(errorPanel);
+	  vp.setHeight("80px");
+
+	  
+	  initWidget(vp);
+	  
+	  setWidth("100%");
+	  
   }
 
   /**
@@ -92,4 +135,51 @@ public class LabeledTextBox extends Composite {
   public TextBox getTextBox() {
     return textbox;
   }
+  
+  /**
+   * Returns the error message resulting from 
+   * 
+   * @return error message
+   */
+  public String getErrorMessage() {
+	  return errorMessage;
+  }
+  
+  /**
+   * Set the specific error message for incorrect text in a textbox.
+   * 
+   * @param errorMessage to use for textBox
+   */
+  public void setErrorMessage(String errorMessage) {
+	  this.errorMessage = errorMessage;
+  }
+  
+  /**
+   * Check to see if a textBox contains valid text. True if text is valid, false otherwise.
+   * 
+   * @return validationResult
+   */
+  public boolean validate() {
+	  boolean validationResult = validator.validate(getTextBox().getValue());
+	  errorMessage = validator.getErrorMessage();
+	  setErrorStyles(validationResult);
+	  return validationResult;
+  }
+  
+  /**
+   * Set the style of the textbox depending on whether the text is currently valid or not.
+   * 
+   * @param validationResult
+   */
+  private void setErrorStyles(boolean validationResult) {
+	  if (validationResult) {
+	    textbox.getElement().getStyle().setBorderColor(defaultTextBoxColor);
+		  errorLabel.setText("");
+	  } else {
+	    textbox.getElement().getStyle().setBorderColor("red");
+		  errorLabel.setText(errorMessage);
+	  }
+  }
+  
+
 }
