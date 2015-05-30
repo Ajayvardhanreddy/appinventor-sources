@@ -250,6 +250,10 @@ public interface OdeMessages extends Messages {
   @Description("Title of the Previous Actions Popup of reportlist")
   String titleSeeAllActionsPopup();
 
+  @DefaultMessage("More Reports")
+  @Description("text for more reports")
+  String galleryMoreReports();
+
   @DefaultMessage("X")
   @Description("Symbol X")
   String symbolX();
@@ -1771,6 +1775,10 @@ public interface OdeMessages extends Messages {
   @DefaultMessage("Server error: could not get most downloaded apps from gallery")
   @Description("Error message reported when can't get most downloaded apps server.")
   String galleryDownloadedAppsError();
+
+  @DefaultMessage("Server error: could not get most liked apps from gallery")
+  @Description("Error message reported when can't get most liked apps server.")
+  String galleryLikedAppsError();
 
   @DefaultMessage("Server error: gallery deletion error")
   @Description("Error message reported when the gallery delete breaks")
