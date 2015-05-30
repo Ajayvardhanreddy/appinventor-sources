@@ -47,8 +47,8 @@ public final class NewYoungAndroidProjectWizard extends NewProjectWizard {
     setStylePrimaryName("ode-DialogBox");
 
     projectNameTextBox = new LabeledTextBox(MESSAGES.projectNameLabel(), new Validator() {
-  		@Override
-  		public boolean validate(String value) {
+      @Override
+      public boolean validate(String value) {
         if(!value.matches("[A-Za-z][A-Za-z0-9_]*") && value.length() > 0) {
           String noWhitespace = "[\\S]+";
           String firstCharacterLetter = "[a-zA-Z].*";
@@ -64,13 +64,13 @@ public final class NewYoungAndroidProjectWizard extends NewProjectWizard {
           errorMessage = "";
           return true;
         }
-  		}
-
-  		@Override
-  		public String getErrorMessage() {
-  			return errorMessage;
-  		}
-      });
+      }
+      
+      @Override
+      public String getErrorMessage() {
+        return errorMessage;
+      }
+    });
     
     projectNameTextBox.getTextBox().addKeyDownHandler(new KeyDownHandler() {
       @Override
