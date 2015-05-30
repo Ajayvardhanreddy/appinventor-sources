@@ -7,9 +7,7 @@
 package com.google.appinventor.client.wizards.youngandroid;
 
 import com.google.appinventor.client.Ode;
-
 import static com.google.appinventor.client.Ode.MESSAGES;
-
 import com.google.appinventor.client.explorer.project.Project;
 import com.google.appinventor.client.tracking.Tracking;
 import com.google.appinventor.client.widgets.LabeledTextBox;
@@ -49,32 +47,32 @@ public final class NewYoungAndroidProjectWizard extends NewProjectWizard {
     setStylePrimaryName("ode-DialogBox");
 
     projectNameTextBox = new LabeledTextBox(MESSAGES.projectNameLabel(), new Validator() {
+  		@Override
+  		public boolean validate(String value) {
+        if(!value.matches("[A-Za-z][A-Za-z0-9_]*") && value.length() > 0) {
+          String noWhitespace = "[\\S]+";
+          String firstCharacterLetter = "[a-zA-Z].*";
+          if(!value.matches(noWhitespace)) { //Check to make sure that this project name doesn't contain any whitespace
+            errorMessage = "Project names cannot contain spaces";
+          } else if (!value.matches(firstCharacterLetter)) {  //Check to make sure the first character is a letter.
+            errorMessage = "Project names must begin with a letter";
+          } else { //The text contains a character that is not a letter, number, or underscore
+            errorMessage = "Invalid character. Project names can only contain letters, numbers, and underscores";
+          }
+          return false;
+        } else { //This is valid text, return true
+          errorMessage = "";
+          return true;
+        }
+  		}
 
-		@Override
-		public boolean validate(String value) {
-			if(!value.matches("[A-Za-z][A-Za-z0-9_]*") && value.length() > 0) {
-			  String noWhitespace = "[\\S]+";
-				String firstCharacterLetter = "[a-zA-Z].*";
-				if(!value.matches(noWhitespace)) { //Check to make sure that this project name doesn't contain any whitespace
-					errorMessage = "Project names cannot contain spaces";
-				} else if (!value.matches(firstCharacterLetter)) {  //Check to make sure the first character is a letter.
-					errorMessage = "Project names must begin with a letter";
-				} else { //The text contains a character that is not a letter, number, or underscore
-					errorMessage = "Invalid character. Project names can only contain letters, numbers, and underscores";
-				}
-				return false;
-			} else { //This is valid text, return true
-				errorMessage = "";
-				return true;
-			}
-		}
-
-		@Override
-		public String getErrorMessage() {
-			return errorMessage;
-		}
-    	
-    });
+  		@Override
+  		public String getErrorMessage() {
+  			return errorMessage;
+  		}
+      	
+      });
+    
     projectNameTextBox.getTextBox().addKeyDownHandler(new KeyDownHandler() {
       @Override
       public void onKeyDown(KeyDownEvent event) {
@@ -88,11 +86,11 @@ public final class NewYoungAndroidProjectWizard extends NewProjectWizard {
     });
     
     projectNameTextBox.getTextBox().addKeyUpHandler(new KeyUpHandler() {
-		@Override
-		public void onKeyUp(KeyUpEvent event) { //Validate the text each time a key is lifted
-			projectNameTextBox.validate();
-		}
-    });
+      @Override
+      public void onKeyUp(KeyUpEvent event) { //Validate the text each time a key is lifted
+        projectNameTextBox.validate();
+      }
+      });
 
     VerticalPanel page = new VerticalPanel();
 
