@@ -55,31 +55,30 @@ public class LabeledTextBox extends Composite {
    * @param validator
    */
   public LabeledTextBox(String caption, Validator validator) {
-	  this.validator = validator;
-	  
-	  HorizontalPanel panel = new HorizontalPanel();
-	  label = new Label(caption);
-	  panel.add(label);
-	  textbox = new TextBox();
-	  defaultTextBoxColor = textbox.getElement().getStyle().getBorderColor();
-	  textbox.setWidth("100%");
-	  panel.add(textbox);
-	  panel.setCellWidth(label, "40%");
-	  
-	  HorizontalPanel errorPanel = new HorizontalPanel();
-	  errorLabel = new Label("");
-	  errorPanel.add(errorLabel);
-	  
-	  VerticalPanel vp = new VerticalPanel();
-	  vp.add(panel);
-	  vp.add(errorPanel);
-	  vp.setHeight("80px");
-
-	  
-	  initWidget(vp);
-	  
-	  setWidth("100%");
-	  
+    this.validator = validator;
+    
+    HorizontalPanel panel = new HorizontalPanel();
+    label = new Label(caption);
+    panel.add(label);
+    textbox = new TextBox();
+    defaultTextBoxColor = textbox.getElement().getStyle().getBorderColor();
+    textbox.setWidth("100%");
+    panel.add(textbox);
+    panel.setCellWidth(label, "40%");
+    
+    HorizontalPanel errorPanel = new HorizontalPanel();
+    errorLabel = new Label("");
+    errorPanel.add(errorLabel);
+    
+    VerticalPanel vp = new VerticalPanel();
+    vp.add(panel);
+    vp.add(errorPanel);
+    vp.setHeight("80px");
+  
+    
+    initWidget(vp);
+    
+    setWidth("100%");
   }
 
   /**
@@ -142,7 +141,7 @@ public class LabeledTextBox extends Composite {
    * @return error message
    */
   public String getErrorMessage() {
-	  return errorMessage;
+    return errorMessage;
   }
   
   /**
@@ -151,7 +150,7 @@ public class LabeledTextBox extends Composite {
    * @param errorMessage to use for textBox
    */
   public void setErrorMessage(String errorMessage) {
-	  this.errorMessage = errorMessage;
+    this.errorMessage = errorMessage;
   }
   
   /**
@@ -160,10 +159,10 @@ public class LabeledTextBox extends Composite {
    * @return validationResult
    */
   public boolean validate() {
-	  boolean validationResult = validator.validate(getTextBox().getValue());
-	  errorMessage = validator.getErrorMessage();
-	  setErrorStyles(validationResult);
-	  return validationResult;
+    boolean validationResult = validator.validate(getTextBox().getValue());
+    errorMessage = validator.getErrorMessage();
+    setErrorStyles(validationResult);
+    return validationResult;
   }
   
   /**
@@ -172,13 +171,13 @@ public class LabeledTextBox extends Composite {
    * @param validationResult
    */
   private void setErrorStyles(boolean validationResult) {
-	  if (validationResult) {
-	    textbox.getElement().getStyle().setBorderColor(defaultTextBoxColor);
-		  errorLabel.setText("");
-	  } else {
-	    textbox.getElement().getStyle().setBorderColor("red");
-		  errorLabel.setText(errorMessage);
-	  }
+    if (validationResult) {
+      textbox.getElement().getStyle().setBorderColor(defaultTextBoxColor);
+      errorLabel.setText("");
+    } else {
+      textbox.getElement().getStyle().setBorderColor("red");
+      errorLabel.setText(errorMessage);
+    }
   }
   
 
